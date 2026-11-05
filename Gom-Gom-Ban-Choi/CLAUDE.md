@@ -273,5 +273,5 @@ Nếu thêm một kiểu lỗi mới mà QC chưa bắt được: thêm phép ki
 - Dev tools chỉ hiện trên localhost, URL có `?dev`, hoặc bản HTML build (`npm run build:html` bật sẵn; bản cho người chơi: `npm run build:html -- --no-dev`): Unlock all, Reset progress, QC models.
 - Khi test bằng cách sửa save trong trình duyệt: sao lưu trước, trả lại sau.
 
-## Wiki kiến thức (`wiki/`)
-- Wiki thiết kế game do Claude duy trì, quy ước và quy trình ingest / query / lint ở `wiki/SCHEMA.md`. Khi được nhờ "thêm vào wiki", làm theo file đó; khi hỏi về kinh tế / monetization / live ops / tiến trình / cửa hàng / giá / KPI, hoặc toán cho game (toạ độ, khoảng cách, góc, vector, dao động, va chạm / phản xạ), đọc `wiki/index.md` trước rồi mở các trang liên quan và trích `[[trang]]`. Khi các nguồn mâu thuẫn nhau (energy / lives, daily login, quảng cáo, cá voi, starter pack, Battle Pass, giá, đạo đức), đọc `wiki/pages/council-topic-verdicts.md` và `council-playbook-casual-deco.md` (phán quyết theo thể loại, game mình là G1). Nếu wiki không có thông tin thì nói rõ, đừng bịa từ sách.
+## Wiki kiến thức (dùng chung, nằm ngoài repo)
+- Wiki thiết kế game nay là kiến thức chung của cả máy, ở `C:\Users\CPU13410\GameDesignWiki` (xem `~/.claude/CLAUDE.md`); repo này không còn giữ bản sao. Khi hỏi về kinh tế / monetization / live ops / Daily / Quests / UI / feel / đạo đức, hoặc các nguồn mâu thuẫn, dùng skill `wiki-design-advisor` hoặc đọc `index.md` và `pages/council-*` ở đó. Playbook riêng cho game này: `pages/council-playbook-casual-deco.md`.
