@@ -4,6 +4,11 @@ Ghi mỗi thay đổi người chơi thấy được, mới nhất ở trên. Đ
 
 ## 2026-11-16
 
+### Deco
+- Dấu "!" (thùng mèo, hộp quà, mèo cam) hiện đúng màu vàng trên điện thoại. Lỗi: shader toon `pow()` số âm sau bước pastel (màu vàng đậm có kênh
+  xanh dương âm), GPU Android ra NaN nên dấu thành xanh lá. Xanh lá giờ chỉ còn ở cọc khu kế tiếp khi đủ điều kiện mở.
+- Xoay camera Deco bằng hai ngón về lại chiều cũ (`DRAG.DECO_ROTATE_REVERSED` mặc định tắt, bật lại được qua Remote Config).
+
 ### Gameplay
 - Bonus Time (xả lượt sau khi thắng) về lại nhịp nhanh cũ: lượt chỉ gom mèo có sẵn không còn phải chờ bằng lượt có mèo mọc.
   Cờ `TIMING.BONUS_EVEN_PACE` (tuning.mjs) đổi mặc định thành `false`; bật lại được qua Firebase Remote Config nếu cần nhịp đều như bản Unity.
