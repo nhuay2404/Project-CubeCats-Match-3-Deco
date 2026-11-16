@@ -31,7 +31,7 @@ export const TIMING = remote('TIMING', {
   AFK_MS: 5000,        // không chạm màn hình bấy lâu thì mèo buồn ngủ (biểu cảm sleepy)
   AFK_SLEEP_MS: 6000,  // buồn ngủ thêm bấy lâu nữa thì ngủ say (biểu cảm sleep + zzz)
   CARRY_HOLD_MS: 350,  // giữ mèo trong phòng bấy lâu thì nhấc lên
-  BONUS_EVEN_PACE: true, // Bonus Time: lượt không mọc mèo mới cũng chờ bằng lượt có mèo mọc, mọi màn cùng nhịp (như bản Unity)
+  BONUS_EVEN_PACE: false, // Bonus Time: bật thì lượt không mọc mèo mới cũng chờ bằng lượt có mèo mọc (mọi màn cùng nhịp như bản Unity); tắt = nhịp nhanh cũ (người chơi chọn)
 });
 
 // Kéo thẻ trên bàn chơi / kéo mèo trong phòng
