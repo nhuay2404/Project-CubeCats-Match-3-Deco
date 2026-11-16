@@ -4,6 +4,11 @@ Ghi mỗi thay đổi người chơi thấy được, mới nhất ở trên. Đ
 
 ## 2026-11-16
 
+### UI (onboarding)
+- Flow mới: màn 1 -> nhận mèo -> mèo cam nói -> màn 2 -> nhận quà -> **vào thẳng Deco** mở quà -> "Yay!" -> **vào thẳng màn 3**.
+  Trước đó thắng màn 2 về Home (phải tự vào Deco) và mở quà xong đứng ở Deco. Hộp quà màn 3 (xu) cũng vào thẳng Deco.
+- File HTML gửi người chơi build bằng `npm run build:html -- --no-dev` (không có nút dev).
+
 ### Deco
 - Dấu "!" (thùng mèo, hộp quà, mèo cam) hiện đúng màu vàng trên điện thoại. Lỗi: shader toon `pow()` số âm sau bước pastel (màu vàng đậm có kênh
   xanh dương âm), GPU Android ra NaN nên dấu thành xanh lá. Xanh lá giờ chỉ còn ở cọc khu kế tiếp khi đủ điều kiện mở.
@@ -14,8 +19,7 @@ Ghi mỗi thay đổi người chơi thấy được, mới nhất ở trên. Đ
   Cờ `TIMING.BONUS_EVEN_PACE` (tuning.mjs) đổi mặc định thành `false`; bật lại được qua Firebase Remote Config nếu cần nhịp đều như bản Unity.
 
 ### UI
-- Onboarding: nhận quà bồn hoa đầu tiên ("Yay!") xong ở lại Deco hub, không vào thẳng màn kế nữa.
-  Lời mèo cam đầu tiên ("Okay!") vẫn vào thẳng màn kế như bản Unity.
+- (Đã thay bằng flow mới ở trên) Nhận quà bồn hoa xong ở lại Deco hub.
 
 ### Gameplay (chốt an toàn)
 - Bonus Time (finale.js `drainMoves`) dừng ngay nếu ván đổi giữa chừng; không còn tự chơi rồi xử thắng ván mới (bảng "Level Complete" 0 sao, không lưu tiến độ).
