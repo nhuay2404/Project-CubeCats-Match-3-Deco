@@ -12,7 +12,7 @@ import { switchTab } from './tabs.js';
 import { setShopPage } from './shop.js';
 import { flyArt } from './reward-fly.js';
 import { showBoxReward } from './map-view.js';
-import { GIFT_BOX_SVG, BOX_ART } from '../ui/gift-box-art.mjs';
+import { BOX_ART } from '../ui/gift-box-art.mjs';
 import { loadProgress, unlockedCount } from '../core/progression.mjs';
 import { boxBlocksPlay } from './gift-boxes.js';
 import { play } from './context.js';
@@ -128,22 +128,17 @@ export function runBuyTour(base) {
 }
 
 // Bảng kết quả bấm Continue sau màn mở khoá (result.js). Màn 1: về Home, thùng mèo bay vào tab Deco (chấm đỏ ở đó).
-// Màn 2–3: hộp quà bay vào tab Deco rồi vào thẳng Deco để mở.
+// Màn 2–3: vào thẳng Deco (hộp quà nằm giữa vườn chờ chạm mở), không ghé Home.
 export async function runOnboarding(unlock) {
   // Màn "You got a new box" dựng TRƯỚC khi chuyển sang Home: nó nằm dưới màn loading (z-index thấp hơn) và đã phủ kín màn hình lúc
   // loading mờ đi, nên Home không lộ ra một thoáng giữa bảng kết quả và màn quà (lỗi cũ).
   const boxReward = unlock === 'cat' || unlock === 'pet' ? showBoxReward() : null;
-  await switchTab('home');
+  // Hộp quà (màn 2, 3): vào thẳng Deco, không ghé Home (lỗi cũ: Home hub thoáng hiện một nhịp rồi mới sang Deco).
+  await switchTab(unlock === 'gift' ? 'deco' : 'home');
   refreshDecoDot();
   const tab = $('tabbar').querySelector('[data-tab="deco"]');
   // Màn 1: màn "You got a new box" (thùng các-tông 3D của Home hub), chạm thì thùng bay vào tab Deco — mở Deco là thùng mở ra, mèo
   // cam nhảy ra (gift-boxes.js enterDeco).
   if (boxReward) await flyArt(await boxReward, BOX_ART, tab);
-  if (unlock === 'gift') {
-    const size = 120, from = { left: innerWidth / 2 - size / 2, top: innerHeight / 2 - size / 2, width: size, height: size };
-    await flyArt(from, GIFT_BOX_SVG, tab);
-    // Hộp quà (màn 2, 3): vào thẳng Deco để mở hộp, không để người chơi tự tìm tab Deco.
-    await switchTab('deco');
-  }
   refreshDecoDot();
 }
