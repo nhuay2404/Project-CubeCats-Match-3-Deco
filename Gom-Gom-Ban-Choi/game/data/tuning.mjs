@@ -31,6 +31,7 @@ export const TIMING = remote('TIMING', {
   AFK_MS: 5000,        // không chạm màn hình bấy lâu thì mèo buồn ngủ (biểu cảm sleepy)
   AFK_SLEEP_MS: 6000,  // buồn ngủ thêm bấy lâu nữa thì ngủ say (biểu cảm sleep + zzz)
   CARRY_HOLD_MS: 350,  // giữ mèo trong phòng bấy lâu thì nhấc lên
+  BONUS_EVEN_PACE: true, // Bonus Time: lượt không mọc mèo mới cũng chờ bằng lượt có mèo mọc, mọi màn cùng nhịp (như bản Unity)
 });
 
 // Kéo thẻ trên bàn chơi / kéo mèo trong phòng
@@ -41,6 +42,7 @@ export const DRAG = remote('DRAG', {
   TOUCH_TAP_TOLERANCE: 10, // px: như trên, cho ngón tay (ngón run nhiều hơn chuột)
   TOUCH_LIFT: 70,      // px: ngón tay kéo thẻ thì mèo nổi lên trên ngón bấy nhiêu, để ngón không che mèo + ô sắp đặt
   CARRY_TOLERANCE: 8,  // px: dịch quá mức này trước khi đủ giờ giữ thì là xoay phòng
+  DECO_ROTATE_REVERSED: true, // Deco: vặn 2 ngón / kéo chuột phải xoay camera ngược chiều cũ như bản Unity, tắt thì về chiều cũ (Home luôn chiều cũ)
 });
 
 // Cảnh báo sắp hết lượt

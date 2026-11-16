@@ -1027,6 +1027,8 @@ export function createRoom() {
   // decoMode: đang ở màn Deco (khoá vào khu đang trang trí, chạm món để đổi, đồ cố định bỏ viền...). Camera Deco điều khiển
   // giống hệt Home (hub: kéo = trượt, vặn 2 ngón = xoay, chụm = zoom) — hai thứ tách riêng.
   let decoMode = false;
+  // Chiều xoay camera (vặn 2 ngón / kéo chuột phải): Deco đảo chiều khi DRAG.DECO_ROTATE_REVERSED, Home giữ chiều cũ.
+  const rotateSign = () => (decoMode && DRAG.DECO_ROTATE_REVERSED ? -1 : 1);
   function setMode(mode) {
     hub = mode === 'hub';
     controls.enablePan = hub;
@@ -2824,7 +2826,7 @@ export function createRoom() {
     if (!hub || carrying || viewLocked) return;
     if (!twisting) { twistSum += delta; if (Math.abs(twistSum) < TWIST_START) return; twisting = true; }
     // Vặn theo chiều kim đồng hồ trên màn hình thì khu nhà quay theo: camera quay ngược lại quanh tâm nhìn.
-    twistOffset.subVectors(camera.position, controls.target).applyAxisAngle(upAxis, delta * SENS.twist);
+    twistOffset.subVectors(camera.position, controls.target).applyAxisAngle(upAxis, delta * SENS.twist * rotateSign());
     camera.position.copy(controls.target).add(twistOffset);
   }
   ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'].forEach(type => renderer.domElement.addEventListener(type, trackTouch));
@@ -3181,6 +3183,7 @@ export function createRoom() {
       setMode(options.mode || 'room');
       lockView(false);
       decoMode = !!options.deco;
+      controls.rotateSpeed = rotateSign() * SENS.rotate;
       autoRotate = !!options.autoRotate;
       controls.autoRotate = autoRotate;
       stopGlide();

@@ -7,6 +7,7 @@ import { state, wait, cellEl, WIN_PAUSE_MS, pendingMerges } from './context.js';
 import { render } from './hud.js';
 import { spawnPuff, animateTurn, breakCrates } from './match-fx.js';
 import { scoreSettled } from './score-bar.js';
+import { TIMING } from '../data/tuning.mjs';
 
 // Xả lượt sau khi thắng (session.finaleTurn): bàn mọc "câu đố" cho đủ số lượt còn lại, AI tự chọn thẻ + đặt, mỗi lượt gom một
 // cụm → đúng hết lượt là sạch mèo; hết lượt mà còn mèo thì chơi tiếp (lượt thưởng) tới sạch. Nhịp nhanh; chạm bàn thì nhanh hơn nữa.
@@ -36,6 +37,9 @@ export async function drainMoves() {
       playSound('fill', 8);
       await wait(finaleFast ? FINALE_FAST_MS : FINALE_SPAWN_MS);
       state.board = final;
+    } else if (TIMING.BONUS_EVEN_PACE) {
+      // Lượt chỉ gom mèo có sẵn cũng chờ bằng thời gian mèo mọc: màn kết bằng bàn đầy không xả nhanh gấp ~2,5 lần màn đầu.
+      await wait(finaleFast ? FINALE_FAST_MS : FINALE_SPAWN_MS);
     }
     state.justPlaced = new Set(turn.result.indices.filter(index => turn.match.board[index]));
     animateTurn(turn);
