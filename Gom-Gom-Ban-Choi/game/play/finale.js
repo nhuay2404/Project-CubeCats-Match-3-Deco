@@ -16,15 +16,19 @@ const FINALE_MS = 280, FINALE_FAST_MS = 110, FINALE_SPAWN_MS = 420;
 
 let finaleFast = false;
 
+// Trả về false nếu ván đã đổi giữa chừng (ván mới bắt đầu khi đang xả lượt): người gọi bỏ qua celebrateWin / endLevel,
+// không thì Bonus Time tự chơi tiếp ván mới rồi xử thắng nó (0 sao, không lưu tiến độ).
 export async function drainMoves() {
+  const session = state;
   state.animating = true;
   finaleFast = false;
   await Promise.all([...pendingMerges]);
-  if (!state.moves && !state.board.some(object => object?.group && !object.cage)) return;
+  if (state !== session) return false;
+  if (!state.moves && !state.board.some(object => object?.group && !object.cage)) return true;
   const banner = bonusBanner();
   playSound('reward');
   await wait(finaleFast ? FINALE_FAST_MS : 550);
-  for (let turn = game.finaleTurn(state); turn.ok; turn = game.finaleTurn(state)) {
+  for (let turn = game.finaleTurn(state); turn.ok && state === session; turn = game.finaleTurn(state)) {
     if (turn.spawned.length) {
       // Mèo câu đố mọc lên trước (bàn tạm vẽ ở trạng thái vừa mọc), rồi mới tới lượt AI đặt thẻ.
       const final = state.board, moves = state.moves;
@@ -36,19 +40,23 @@ export async function drainMoves() {
       if (!reduceMotion.matches) turn.spawned.forEach((index, i) => setTimeout(() => { const cell = cellEl(index); if (cell) spawnPuff(cell); }, i * 15));
       playSound('fill', 8);
       await wait(finaleFast ? FINALE_FAST_MS : FINALE_SPAWN_MS);
+      if (state !== session) break;
       state.board = final;
     } else if (TIMING.BONUS_EVEN_PACE) {
       // Lượt chỉ gom mèo có sẵn cũng chờ bằng thời gian mèo mọc: màn kết bằng bàn đầy không xả nhanh gấp ~2,5 lần màn đầu.
       await wait(finaleFast ? FINALE_FAST_MS : FINALE_SPAWN_MS);
+      if (state !== session) break;
     }
     state.justPlaced = new Set(turn.result.indices.filter(index => turn.match.board[index]));
     animateTurn(turn);
     playSound('merge', turn.match.cleared.length);
     render(`${turn.extra ? 'Bonus clear' : 'Bonus'}! +${turn.gained} points.`);
     await wait(finaleFast || reduceMotion.matches ? FINALE_FAST_MS : FINALE_MS + (turn.effect.effects.length ? 120 : 0));
+    if (state !== session) break;
   }
   await Promise.all([...pendingMerges]);
   banner.end();
+  return state === session;
 }
 
 // Chữ "Bonus Time!" ở lại suốt lúc xả lượt (sọc cầu vồng chạy lặp, CSS .bonus-banner) + thanh điểm sọc cầu vồng (body.bonus-time).

@@ -69,11 +69,12 @@ function finishTurn(turn) {
   if (turn.tutorialAdvanced) showNextTutorial(700);
   if (turn.win) {
     render(`You win with ${state.score} points! ✨`);
-    return drainMoves().then(() => {
+    return drainMoves().then(same => {
+      if (!same) return; // ván đã đổi giữa Bonus Time (finale.js drainMoves)
       const message = `You win with ${state.score} points! ✨`;
       render(message);
-      return celebrateWin(message);
-    }).then(() => endLevel(true));
+      return celebrateWin(message).then(() => endLevel(true));
+    });
   }
   if (turn.lose && !turn.stuck) return endLevel(false, state.outcome.reason);
   suggestBoosters(turn);

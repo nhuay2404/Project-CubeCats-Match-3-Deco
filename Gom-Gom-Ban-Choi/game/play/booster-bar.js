@@ -149,11 +149,12 @@ export function smashAt(cell) {
   if (at && turn.points) showMergeScore(at, turn.points, impact + 120, turn.points >= 60 ? 'm6' : 'm4'); else releaseScoreSlot();
   if (turn.win) {
     render(`You win with ${state.score} points! ✨`);
-    return drainMoves().then(() => {
+    return drainMoves().then(same => {
+      if (!same) return; // ván đã đổi giữa Bonus Time (finale.js drainMoves)
       const message = `You win with ${state.score} points! ✨`;
       render(message);
-      return celebrateWin(message);
-    }).then(() => endLevel(true));
+      return celebrateWin(message).then(() => endLevel(true));
+    });
   }
   nudgeGoals(); // búa cũng có thể đẩy điểm qua mục tiêu lần đầu
   render(`Smash! +${turn.points} points.`);
