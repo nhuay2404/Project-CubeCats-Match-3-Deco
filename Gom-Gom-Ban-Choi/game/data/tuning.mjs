@@ -42,7 +42,7 @@ export const DRAG = remote('DRAG', {
   TOUCH_TAP_TOLERANCE: 10, // px: như trên, cho ngón tay (ngón run nhiều hơn chuột)
   TOUCH_LIFT: 70,      // px: ngón tay kéo thẻ thì mèo nổi lên trên ngón bấy nhiêu, để ngón không che mèo + ô sắp đặt
   CARRY_TOLERANCE: 8,  // px: dịch quá mức này trước khi đủ giờ giữ thì là xoay phòng
-  DECO_ROTATE_REVERSED: true, // Deco: vặn 2 ngón / kéo chuột phải xoay camera ngược chiều cũ như bản Unity, tắt thì về chiều cũ (Home luôn chiều cũ)
+  DECO_ROTATE_REVERSED: false, // Deco: bật thì vặn 2 ngón / kéo chuột phải xoay camera ngược chiều (như bản Unity); tắt = chiều cũ (người chơi chọn). Home luôn chiều cũ
 });
 
 // Cảnh báo sắp hết lượt
