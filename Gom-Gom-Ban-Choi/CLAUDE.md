@@ -227,6 +227,7 @@ Nếu thêm một kiểu lỗi mới mà QC chưa bắt được: thêm phép ki
   tán nhỏ, thân cây), rồi rải thật nhiều khóm sprite nhỏ chữ thập (`tuft`) theo đúng hình khối cũ (luống, mặt cầu). KHÔNG dùng một ảnh to cho cả bụi
   / cây (người chơi bỏ: trông như tấm dán). Mép ngoài sprite không vượt khối cũ (QC va chạm với món bên cạnh). Mẫu: oải hương + cẩm tú cầu
   (flower-garden.mjs), tán cây xích đu (garden-expanded.mjs `bigTree`).
+- Mỗi `new THREE.WebGLRenderer` tạm (màn thưởng, popup): khi đóng phải `renderer.dispose()` + `renderer.forceContextLoss()`. dispose() không trả context; context dồn lại thì Chrome (Android ít context hơn máy tính) huỷ context cũ nhất = bản đồ Home / Deco -> trắng xoá (lỗi thật sau màn 7, test `code-rules`). Ưu tiên dùng lại renderer có sẵn thay vì tạo mới.
 - Cầu / trụ dùng helper `ball()` / `cyl()` (số cạnh theo kích thước); nhiều khối nhỏ giống nhau dùng InstancedMesh;
   cụm trang trí tĩnh gộp bằng `mergeStatic()`.
 - `roundedBox()` tự chọn số nấc bo theo bán kính (≤ 2.5 cm: 1 nấc, ≤ 5 cm: 2 nấc): đừng ép lại 3 nấc cho góc bo nhỏ (hàng rào trắng từng

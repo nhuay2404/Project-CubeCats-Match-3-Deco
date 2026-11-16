@@ -1821,6 +1821,8 @@ export function createMapWorld(container, { onPick, onClaim } = {}) {
 }
 
 // ---------- Mèo 3D cho màn nhận thưởng ("You got") ----------
+// Mỗi màn thưởng một WebGL context riêng: stop() PHẢI forceContextLoss() (dispose() không trả context). Không thì context dồn lại qua
+// mỗi lần nhận mèo / thùng, Chrome Android vượt giới hạn và huỷ context cũ nhất = bản đồ Home -> Home trắng xoá (lỗi thật sau màn 7).
 // Canvas trong suốt riêng: mèo 3D (cùng model + viền nâu với mèo trên Map) xoay vào, nhún nhẹ, lắc qua lại cho thấy dáng 3D.
 // Trả về { stop() } để huỷ khi đóng màn thưởng.
 const RUN = 3.2, REST = 1.8; // giây: chạy vòng / nghỉ nhún nhảy
@@ -1889,7 +1891,7 @@ export function catShowcase(container, breed, { reduceMotion = false } = {}) {
     renderWithCatInk(renderer, scene, camera);
   });
   return {
-    stop() { renderer.setAnimationLoop(null); observer.disconnect(); renderer.dispose(); renderer.domElement.remove(); },
+    stop() { renderer.setAnimationLoop(null); observer.disconnect(); renderer.dispose(); renderer.forceContextLoss(); renderer.domElement.remove(); },
   };
 }
 
@@ -1939,6 +1941,6 @@ export function boxShowcase(container, { reduceMotion = false } = {}) {
     renderer.render(scene, camera);
   });
   return {
-    stop() { renderer.setAnimationLoop(null); observer.disconnect(); renderer.dispose(); renderer.domElement.remove(); },
+    stop() { renderer.setAnimationLoop(null); observer.disconnect(); renderer.dispose(); renderer.forceContextLoss(); renderer.domElement.remove(); },
   };
 }

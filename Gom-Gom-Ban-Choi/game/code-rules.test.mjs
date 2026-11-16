@@ -69,3 +69,13 @@ test('outline-rules: kết cấu căn phòng / vườn không có viền (isStru
   for (const key of ["key: 'floors'", "key: 'walls'"]) assert.ok(room.includes(key), `mất pickSurface ${key}: sàn / tường sẽ lại có viền`);
   assert.ok(room.includes('cornersSquare.userData.structure'), 'góc vườn phải đánh dấu structure');
 });
+
+// Màn thưởng "You got" (map-world.mjs catShowcase / boxShowcase) mỗi lần tạo một WebGL context: stop() phải forceContextLoss(),
+// dispose() không trả context. Lỗi thật: context dồn qua mỗi lần nhận mèo, Chrome Android huỷ context bản đồ Home -> Home trắng xoá.
+test('màn thưởng 3D trả WebGL context khi đóng (forceContextLoss)', async () => {
+  const { readFileSync } = await import('node:fs');
+  const src = readFileSync(new URL('./deco/map-world.mjs', import.meta.url), 'utf8');
+  const stops = src.split('\n').filter(line => /stop\(\) \{.*renderer\.dispose\(\)/.test(line));
+  assert.ok(stops.length >= 2, 'tìm thấy stop() của catShowcase + boxShowcase');
+  stops.forEach(line => assert.ok(line.includes('renderer.forceContextLoss()'), `thiếu forceContextLoss: ${line.trim()}`));
+});
