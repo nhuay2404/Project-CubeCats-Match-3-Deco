@@ -64,7 +64,7 @@ export function runCatTalk() {
   ]), () => { setGuide(false); ob.catTalkDone(); room3d?.markCat(null); playNextLevel(); }); // đọc xong: mở lại tab Home và vào thẳng màn kế
 }
 
-// Lời mèo cam đầu tiên ("Okay!") và quà bồn hoa ("Yay!") vào thẳng màn kế thay vì dừng ở Home / Deco (như bản Unity).
+// Lời mèo cam đầu tiên ("Okay!") vào thẳng màn kế thay vì dừng ở Home (như bản Unity). Quà bồn hoa ("Yay!") thì ở lại Deco hub.
 // Còn thùng thú cưng chờ mở thì ở lại Home, nhắc mở thùng (boxBlocksPlay).
 async function playNextLevel() {
   await switchTab('home');
@@ -103,7 +103,7 @@ export function runItemTour(base) {
     // Lời thoại thuần (bubble 'speech'): không làm tối màn hình, không khoét sáng bồn hoa, chỉ bong bóng mọc từ mèo cam.
     { target: () => null, bubble: 'speech', next: 'Yay!', before: () => Promise.all([new Promise(resolve => setTimeout(resolve, 600)), guideSeated()]),
       text: `A gift for our garden: a ${base.name}! The crew loves it already. Win more levels, Owner, and there’ll be another gift!` },
-  ]), () => { setGuide(false); writeText(SAVE_KEYS.decoTour, 'styles'); renderDeco(); playNextLevel(); });
+  ]), () => { setGuide(false); writeText(SAVE_KEYS.decoTour, 'styles'); renderDeco(); }); // nhận quà xong ở lại Deco hub (không vào thẳng màn kế)
 }
 
 // ---------- Hộp xu (hộp mở thứ hai): dạy mua một món gốc vừa đủ tiền rồi đặt. KHÔNG mở / nói Shop ----------
