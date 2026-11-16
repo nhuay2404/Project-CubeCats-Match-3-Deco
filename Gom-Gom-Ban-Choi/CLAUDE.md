@@ -69,6 +69,7 @@ Nếu thêm một kiểu lỗi mới mà QC chưa bắt được: thêm phép ki
 - Không tô màu chuyển dần bằng màu đỉnh (gradient) lên khối: toon = mảng màu phẳng, sáng tối do các nấc tự chia. Muốn chiều sâu thì mỗi khối một màu.
 - Không làm mặt lồi lõm nhỏ rồi `computeVertexNormals()`: pháp tuyến gồ ghề làm nấc sáng vỡ thành đốm loang (lỗi bụi góc vườn + tán cây xích đu:
   "trông như 3D thuần"). Dáng lổn nhổn thì dời đỉnh nhưng GIỮ pháp tuyến của khối trơn (xem `lumpyPuff`), hoặc ghép nhiều khối lồi.
+- Shader toon: mọi `pow()` / `log()` / `sqrt()` trên màu phải chặn `max(x, 0.0)` trước. Bước pastel tăng độ đậm làm kênh màu đậm thành số âm; pow(số âm) mỗi GPU một kiểu (máy tính ra 0, điện thoại ra NaN): lỗi dấu "!" vàng thành xanh lá trên Android.
 - `toonMat({ smooth: true })` chỉ cho địa hình (nền: `pickSurface` floors, đồi: `userData.terrain`).
 - Ngoại lệ có chủ đích (vd. sợi len quấn = xuyến gộp): `userData.toonOk = 'lý do'`. Tấm mỏng hai mặt (rèm gợn nếp) và lưới gộp có xuyến / lưới tiện tự được miễn.
 

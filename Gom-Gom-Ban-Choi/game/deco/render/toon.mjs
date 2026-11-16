@@ -78,7 +78,9 @@ const PASTEL_CHUNK = `#include <color_fragment>
 {
   vec3 pastel = pow( max( diffuseColor.rgb, vec3( 0.0 ) ), vec3( 1.0 / 2.2 ) );
   pastel = mix( vec3( dot( pastel, vec3( 0.299, 0.587, 0.114 ) ) ), pastel, ${PASTEL.sat.toFixed(3)} );
-  diffuseColor.rgb = pow( mix( pastel, vec3( 1.0 ), ${PASTEL.white.toFixed(3)} ), vec3( 2.2 ) );
+  // Chặn >= 0 trước pow: màu đậm (vàng #ffbf00 của dấu "!") tăng độ đậm 1.35 thì kênh xanh dương âm (~-0.16); pow(số âm) không xác định
+  // trong GLSL: GPU máy tính ra 0 (vẫn vàng), GPU điện thoại ra NaN -> dấu "!" thành xanh lá (lỗi thật trên Android).
+  diffuseColor.rgb = pow( max( mix( pastel, vec3( 1.0 ), ${PASTEL.white.toFixed(3)} ), vec3( 0.0 ) ), vec3( 2.2 ) );
 }`;
 export function pastelColor(color) {
   const c = color.clone().convertLinearToSRGB();
