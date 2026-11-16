@@ -63,6 +63,7 @@ export function renderTutorial() {
     const bubble = $('tutorial-bubble');
     // Không có text (hầu hết bước) thì không hiện bong bóng: chỉ có bàn tay + viền sáng.
     bubble.hidden = !step.text;
+    paintAvatar(step);
     $('tutorial-text').textContent = (step.text || '').replace('{target}', state.level.target).replace('{moves}', state.level.moves);
     $('tutorial-next').hidden = step.type !== 'info';
     bubble.classList.toggle('center', step.type === 'info');
@@ -106,4 +107,24 @@ $('tutorial-next').onclick = () => { game.continueTutorial(state); renderTutoria
 
 addEventListener('resize', () => { if (tutorialStep()) renderTutorial(); });
 
-$('tutorial-avatar').innerHTML = catMarkup.orange;
+// Ảnh trong bong bóng: bước info giới thiệu vật cản (sắt, lồng, cỏ, mèo béo, hộp thư, bình hoa, siro) hiện hình vật cản đó,
+// chọn theo chữ của bước; các bước khác giữ mèo cam. Đường dẫn ảnh viết đủ để build:html nhúng được.
+const OBSTACLE_ART = [
+  [/metal/i, '<img src="./assets/img/board/tin-can.png" alt="">'],
+  [/cage/i, '<img src="./assets/img/board/cage.png" alt="">'],
+  [/grass/i, '<img class="square" src="./assets/img/board/grass-mint-surface.png" alt="">'],
+  [/big cat|napping/i, '<img src="./assets/img/cats/fat/body.png" alt=""><img src="./assets/img/cats/fat/face-sleep.png" alt="">'],
+  [/mailbox/i, '<img src="./assets/img/board/mailbox.png" alt="">'],
+  [/vase/i, '<img src="./assets/img/board/vase.png" alt="">'],
+  [/syrup/i, '<img src="./assets/img/board/syrup-goal.png" alt="">'],
+];
+let avatarArt = null;
+function paintAvatar(step) {
+  const art = step.type === 'info' && OBSTACLE_ART.find(([pattern]) => pattern.test(step.text || ''))?.[1] || null;
+  if (art === avatarArt) return;
+  avatarArt = art;
+  const avatar = $('tutorial-avatar');
+  avatar.classList.toggle('obstacle', !!art);
+  avatar.innerHTML = art || catMarkup.orange;
+}
+paintAvatar({});

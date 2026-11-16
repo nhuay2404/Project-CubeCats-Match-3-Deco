@@ -7,6 +7,10 @@
 .tutorial-bubble.center p{font-size:18px;margin:2px 0 6px}
 .tutorial-avatar{border-radius:50%;background:#fff3dd;box-shadow:inset 0 0 0 2px #f1d6aa}
 .tutorial-bubble.center .tutorial-avatar{width:76px;height:76px}
+/* Bước giới thiệu vật cản: ảnh vật cản thay mèo cam (tutorial.js OBSTACLE_ART); mèo béo = thân + mặt chồng nhau */
+.tutorial-avatar.obstacle{position:relative;overflow:hidden}
+.tutorial-avatar.obstacle img{position:absolute;inset:14%;width:72%;height:72%;object-fit:contain}
+.tutorial-avatar.obstacle img.square{inset:18%;width:64%;height:64%;object-fit:cover;border-radius:20%}
 .tutorial-bubble .pill-button,.deco-tour-next{min-width:150px;padding:10px 26px;border:3px solid #1f7a2e;border-radius:999px;
   background:linear-gradient(#7fdc6d,#36aa45);box-shadow:inset 0 3px 0 #c4f7b6aa,0 4px 0 #1f7a2e66;
   font-family:var(--display);font-size:20px;font-weight:800;color:#fff;-webkit-text-stroke:3px #1f7a2e;paint-order:stroke fill}
