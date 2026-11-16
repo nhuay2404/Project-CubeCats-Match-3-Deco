@@ -304,8 +304,9 @@ body.deco-locked .hub-settings{opacity:.5}
 
 /* Onboarding trước phần Decoration (tutorial Garden): nút trang trí vẫn hiện nhưng mờ, xám, không bấm được */
 body.ob-no-build #deco :is(.deco-dock,.deco-side [data-key="walls"],.deco-side [data-key="floors"]){opacity:.45;filter:grayscale(.7);pointer-events:none}
-/* Onboarding: vào Deco sau màn 1 chỉ ngắm vườn + mèo cam, panel Deco (khay thẻ, cột trái) hiện từ hộp quà món đồ đầu tiên */
-body.ob-no-panel #deco :is(.deco-dock,.deco-side){display:none}
+/* Onboarding: vào Deco sau màn 1 chỉ ngắm vườn + mèo cam, panel Deco (khay thẻ, cột trái) hiện từ hộp quà món đồ đầu tiên.
+   Riêng nút ngắm nhà (mắt) hiện ngay từ lần vào Deco đầu tiên. */
+body.ob-no-panel #deco :is(.deco-dock,.deco-side>:not(.deco-lock)){display:none}
 /* Nút "?" (hướng dẫn đọc lại, có nói Shop) chỉ hiện khi đã xong onboarding */
 body.onboarding #deco .deco-help{display:none}
 /* ===== Mở khu bằng xu: vùng chạm trong suốt đè lên cọc gỗ + mũi tên (3D, deco-room.mjs setGhost) giữa mảnh đất của khu kế tiếp ===== */

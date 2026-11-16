@@ -13,6 +13,9 @@ import { setShopPage } from './shop.js';
 import { flyArt } from './reward-fly.js';
 import { showBoxReward } from './map-view.js';
 import { GIFT_BOX_SVG, BOX_ART } from '../ui/gift-box-art.mjs';
+import { loadProgress, unlockedCount } from '../core/progression.mjs';
+import { boxBlocksPlay } from './gift-boxes.js';
+import { play } from './context.js';
 
 // Mèo cam ngồi trong vườn, mọi lời hướng dẫn là bong bóng thoại mọc từ nó (speaker); mèo khuất (Shop) thì bóng thường.
 // Giọng: mèo cam là một thành viên của bầy mèo, gọi người chơi là "Owner" (người nuôi cả bầy), nói "our home / our garden / the crew".
@@ -58,7 +61,14 @@ export function runCatTalk() {
   startDecoTour(say([
     { target: () => null, next: 'Okay!',
       text: 'Mrrow… it’s so empty out here. Nothing to climb, nothing to nap on! Owner, keep playing levels so we can fill our home with cozy things!' },
-  ]), () => { setGuide(false); ob.catTalkDone(); room3d?.markCat(null); switchTab('home'); }); // đọc xong: mở lại tab Home và về Home chơi tiếp
+  ]), () => { setGuide(false); ob.catTalkDone(); room3d?.markCat(null); playNextLevel(); }); // đọc xong: mở lại tab Home và vào thẳng màn kế
+}
+
+// Lời mèo cam đầu tiên ("Okay!") và quà bồn hoa ("Yay!") vào thẳng màn kế thay vì dừng ở Home / Deco (như bản Unity).
+// Còn thùng thú cưng chờ mở thì ở lại Home, nhắc mở thùng (boxBlocksPlay).
+async function playNextLevel() {
+  await switchTab('home');
+  if (!boxBlocksPlay()) play.startLevel(unlockedCount(loadProgress()) - 1);
 }
 
 $('deco-help').onclick = () => { playSound('pick'); runDecoTour(); };
@@ -93,7 +103,7 @@ export function runItemTour(base) {
     // Lời thoại thuần (bubble 'speech'): không làm tối màn hình, không khoét sáng bồn hoa, chỉ bong bóng mọc từ mèo cam.
     { target: () => null, bubble: 'speech', next: 'Yay!', before: () => Promise.all([new Promise(resolve => setTimeout(resolve, 600)), guideSeated()]),
       text: `A gift for our garden: a ${base.name}! The crew loves it already. Win more levels, Owner, and there’ll be another gift!` },
-  ]), () => { setGuide(false); writeText(SAVE_KEYS.decoTour, 'styles'); renderDeco(); });
+  ]), () => { setGuide(false); writeText(SAVE_KEYS.decoTour, 'styles'); renderDeco(); playNextLevel(); });
 }
 
 // ---------- Hộp xu (hộp mở thứ hai): dạy mua một món gốc vừa đủ tiền rồi đặt. KHÔNG mở / nói Shop ----------
