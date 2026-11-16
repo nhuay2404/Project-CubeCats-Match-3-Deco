@@ -12,6 +12,10 @@ Ghi mỗi thay đổi người chơi thấy được, mới nhất ở trên. Đ
 - Onboarding: nhận quà bồn hoa đầu tiên ("Yay!") xong ở lại Deco hub, không vào thẳng màn kế nữa.
   Lời mèo cam đầu tiên ("Okay!") vẫn vào thẳng màn kế như bản Unity.
 
+### Gameplay (chốt an toàn)
+- Bonus Time (finale.js `drainMoves`) dừng ngay nếu ván đổi giữa chừng; không còn tự chơi rồi xử thắng ván mới (bảng "Level Complete" 0 sao, không lưu tiến độ).
+  Người chơi thường không vào được tình huống này (Home / Restart bị khoá lúc Bonus Time); lộ ra khi máy test bấm thẳng tab giữa ván.
+
 ### Tools (dev)
 - `?level=N` (nút "Chơi thử trong game" của Level Editor): đóng popup Home vừa tự bật (quà 7 ngày) trước khi vào màn.
   Trước đó popup đè lên màn chơi và bảng thắng chồng lên popup.
