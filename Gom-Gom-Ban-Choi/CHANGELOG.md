@@ -7,6 +7,7 @@ Ghi mỗi thay đổi người chơi thấy được, mới nhất ở trên. Đ
 ### UI (onboarding)
 - Flow mới: màn 1 -> nhận mèo -> mèo cam nói -> màn 2 -> nhận quà -> **vào thẳng Deco** mở quà -> "Yay!" -> **vào thẳng màn 3**.
   Trước đó thắng màn 2 về Home (phải tự vào Deco) và mở quà xong đứng ở Deco. Hộp quà màn 3 (xu) cũng vào thẳng Deco.
+- Bấm Continue sau màn 2 / 3 không còn thoáng hiện Home hub trước khi sang Deco (bỏ bước ghé Home + hộp quà bay vào tab).
 - File HTML gửi người chơi build bằng `npm run build:html -- --no-dev` (không có nút dev).
 
 ### Deco
