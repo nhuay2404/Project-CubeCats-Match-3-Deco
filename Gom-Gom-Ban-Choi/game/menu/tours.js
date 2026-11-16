@@ -64,7 +64,7 @@ export function runCatTalk() {
   ]), () => { setGuide(false); ob.catTalkDone(); room3d?.markCat(null); playNextLevel(); }); // đọc xong: mở lại tab Home và vào thẳng màn kế
 }
 
-// Lời mèo cam đầu tiên ("Okay!") vào thẳng màn kế thay vì dừng ở Home (như bản Unity). Quà bồn hoa ("Yay!") thì ở lại Deco hub.
+// Lời mèo cam đầu tiên ("Okay!") và quà bồn hoa ("Yay!") vào thẳng màn kế thay vì dừng ở Home / Deco.
 // Còn thùng thú cưng chờ mở thì ở lại Home, nhắc mở thùng (boxBlocksPlay).
 async function playNextLevel() {
   await switchTab('home');
@@ -103,7 +103,7 @@ export function runItemTour(base) {
     // Lời thoại thuần (bubble 'speech'): không làm tối màn hình, không khoét sáng bồn hoa, chỉ bong bóng mọc từ mèo cam.
     { target: () => null, bubble: 'speech', next: 'Yay!', before: () => Promise.all([new Promise(resolve => setTimeout(resolve, 600)), guideSeated()]),
       text: `A gift for our garden: a ${base.name}! The crew loves it already. Win more levels, Owner, and there’ll be another gift!` },
-  ]), () => { setGuide(false); writeText(SAVE_KEYS.decoTour, 'styles'); renderDeco(); }); // nhận quà xong ở lại Deco hub (không vào thẳng màn kế)
+  ]), () => { setGuide(false); writeText(SAVE_KEYS.decoTour, 'styles'); renderDeco(); playNextLevel(); }); // nhận quà xong vào thẳng màn kế
 }
 
 // ---------- Hộp xu (hộp mở thứ hai): dạy mua một món gốc vừa đủ tiền rồi đặt. KHÔNG mở / nói Shop ----------
@@ -127,7 +127,8 @@ export function runBuyTour(base) {
   ]), () => { setGuide(false); setTourHold(false); writeText(SAVE_KEYS.decoTour, 'done'); refreshDecoDot(); });
 }
 
-// Bảng kết quả bấm Continue sau màn mở khoá (result.js): về Home. Màn 1: thùng mèo / màn 2–3: hộp quà bay vào tab Deco (chấm đỏ ở đó).
+// Bảng kết quả bấm Continue sau màn mở khoá (result.js). Màn 1: về Home, thùng mèo bay vào tab Deco (chấm đỏ ở đó).
+// Màn 2–3: hộp quà bay vào tab Deco rồi vào thẳng Deco để mở.
 export async function runOnboarding(unlock) {
   // Màn "You got a new box" dựng TRƯỚC khi chuyển sang Home: nó nằm dưới màn loading (z-index thấp hơn) và đã phủ kín màn hình lúc
   // loading mờ đi, nên Home không lộ ra một thoáng giữa bảng kết quả và màn quà (lỗi cũ).
@@ -141,6 +142,8 @@ export async function runOnboarding(unlock) {
   if (unlock === 'gift') {
     const size = 120, from = { left: innerWidth / 2 - size / 2, top: innerHeight / 2 - size / 2, width: size, height: size };
     await flyArt(from, GIFT_BOX_SVG, tab);
+    // Hộp quà (màn 2, 3): vào thẳng Deco để mở hộp, không để người chơi tự tìm tab Deco.
+    await switchTab('deco');
   }
   refreshDecoDot();
 }
