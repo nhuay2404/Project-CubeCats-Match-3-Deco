@@ -264,8 +264,8 @@ Nếu thêm một kiểu lỗi mới mà QC chưa bắt được: thêm phép ki
 
 ## Khác
 - **Art 2D đã được người dùng duyệt**: đọc `docs/art-style.md` trước khi tạo / thay minh họa game. Chuẩn là gói gem `game/assets/img/shop/gem-packs/gems_16000-modern-full.png`: cartoon hiện đại, viền nâu ấm, pastel lì, cel shading nhẹ, vật dụng đời thường có dấu chân mèo; gói lớn đầy ụ. Tránh fantasy / rương vàng / trang sức bóng cầu kỳ. Áp dụng mặc định cho asset mới, không tự thay toàn bộ art cũ.
-- **Lưới + lề UI chung** (`game/ui/shared/grid.css`, nạp gần cuối): mọi nút rìa ở Home / Deco / Shop / màn chơi bám MÉP KHUNG 393u (không bám mép cửa sổ qua `--gutter`),
-  theo token `--edge-x` (10u), `--edge-top`, `--edge-bottom`, `--gap`, `--col`. Thêm nút rìa mới: đặt vị trí bằng các token này, đừng tự đặt số lề riêng.
+- **Lưới + lề UI chung** (`game/ui/shared/grid.css`, nạp gần cuối): nút rìa ở Home / Deco / Shop (ví, cài đặt, hai cột nút) bám MÉP CỬA SỔ (lề tới mép khung ± `--gutter`: điện thoại dọc = mép khung, tablet / màn rộng ra sát mép màn như bản Unity);
+  màn chơi (HUD, booster, bàn) và khay đồ Deco vẫn rộng theo khung 393u; nền màn chơi phủ cả cửa sổ (không có dải mờ hai bên). Đặt theo token `--edge-x` (10u), `--edge-top`, `--edge-bottom`, `--gap`, `--col`. Thêm nút rìa mới: đặt vị trí bằng các token này, đừng tự đặt số lề riêng.
   Khung ảnh phải giãn theo bề ngang khung (HUD, thanh booster): `border-image` với phần giữa `repeat`, không vẽ 100% × 100% (kéo méo dấu chân).
 - UI Studio (`npm run studio`; nạp cùng cột nút dev, bật / tắt bằng nút "Studio" — `?studio` mở sẵn; hướng dẫn cho artist: `docs/ui-studio.md`): artist sửa CSS trong `game/ui/` / ảnh trong `game/assets/` và game tự cập nhật,
   hoặc chỉnh bằng bảng trong game rồi lưu thẳng vào file. Máy chủ `tools/ui-studio/ui-studio.mjs` (lệnh ghi chỉ nhận từ loopback), bộ đọc / sửa CSS giữ

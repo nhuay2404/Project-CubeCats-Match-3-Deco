@@ -2,8 +2,9 @@
    Nạp SAU mọi CSS khác (trước dev.css): chỉ đặt lại VỊ TRÍ các nút rìa theo một bộ số chung, không đổi hình.
 
    Khung: mọi màn bố cục trong khung 393u (--frame-w, giữa màn; --hub-u = --frame-w / 393). Khung luôn <= bề ngang màn
-   nên thứ bám theo khung không bao giờ bị cắt ra ngoài. Nút rìa bám MÉP KHUNG (không còn bám mép cửa sổ qua --gutter),
-   để Home / Deco / Shop / màn chơi cùng một đường lề trên mọi cỡ màn.
+   nên thứ bám theo khung không bao giờ bị cắt ra ngoài. Nút rìa ở Home / Deco / Shop (ví, nút cài đặt, hai cột nút) bám MÉP CỬA SỔ:
+   lề tới mép khung trừ / cộng --gutter (= 0 trên điện thoại dọc nên y như bám mép khung; tablet / màn rộng thì nút ra sát mép màn
+   như bản Unity). Màn chơi (HUD, booster, bàn) và khay đồ Deco vẫn rộng theo khung.
 
    Bộ số (đổi ở đây là cả game đổi theo):
      --edge-x       lề trái / phải tới mép khung: 10u (= mép khung HUD + thanh booster của màn chơi)
@@ -27,16 +28,16 @@
 .wallet-hud>.fh-pill.fh-coins{left:0}
 .wallet-hud>.fh-pill.fh-gems{left:calc(38.6 * var(--u) * 432 / 116 + 8 * var(--u) / .83)}
 /* Home: ví nằm trong lớp nút .fh-layer (toạ độ theo khung) */
-.map>.fh-layer>.wallet-hud{left:var(--edge-l);top:var(--edge-top)}
+.map>.fh-layer>.wallet-hud{left:calc(var(--edge-l) - var(--gutter));top:var(--edge-top)}
 /* Deco: ví đặt tuyệt đối theo cả màn -> cộng mép khung */
-.screen.deco>.wallet-hud{left:calc(var(--frame-l) + var(--edge-l));top:var(--edge-top)}
+.screen.deco>.wallet-hud{left:var(--edge-l);top:var(--edge-top)}
 /* Shop: ví là khối đầu của cột cuộn -> lề trên = padding màn, lề trái = mép khung + lề */
 .screen.shop{padding-top:var(--edge-top)}
-.screen.shop>.wallet-hud{align-self:flex-start;width:calc(393 * var(--u));margin-left:calc(var(--frame-l) + var(--edge-l))}
+.screen.shop>.wallet-hud{align-self:flex-start;width:calc(393 * var(--u));margin-left:var(--edge-l)}
 
 /* Nút cài đặt chung (Home / Deco / Shop): mép phải = mép khung - lề, tâm ngang hàng ví
    (ví thu .83 quanh tâm dọc 25u: tâm pill = 25 + (24,3 - 25) × .83 = 24,4u; nút 48u) */
-.hub-settings{left:calc(50% + var(--frame-w) / 2 - var(--edge-r) - 48 * var(--hub-u));top:calc(var(--edge-top) + 24.4 * var(--hub-u) - 24 * var(--hub-u))}
+.hub-settings{left:calc(100% - var(--edge-r) - 48 * var(--hub-u));top:calc(var(--edge-top) + 24.4 * var(--hub-u) - 24 * var(--hub-u))}
 
 /* Home: cột trái (Daily, Starter Pack) và cột phải (Feedback, đổi Cats / Dogs) dưới hàng ví một --gap.
    Đáy pill = lề trên + 25 + (43,6 - 25) × .83 = +40,4u (ví thu .83 quanh tâm dọc). Ảnh Daily / Starter có chỗ cho chấm "!" phía trên: ô thật thấp hơn đỉnh ảnh ~5u,
@@ -46,7 +47,7 @@
    cột trái đối xứng. Hộp nút 62 × 58u (home.css .fh-tile) căn tâm vào đường đó. Khoảng trống dọc đều 10u: đáy nút cài đặt -> đỉnh icon hàng 1 -> (icon 44u + chữ) -> 10u -> đỉnh icon hàng 2. */
 /* nút cài đặt: bỏ lệch 8,4u của .fh-round (home.css) để tâm bánh răng nằm đúng đường tâm cột phải */
 .hub-settings .fh-round{left:0}
-:root{--col-l:calc(var(--edge-l) + 24 * var(--hub-u));--col-r:calc(var(--frame-w) - var(--edge-r) - 24 * var(--hub-u))}
+:root{--col-l:calc(var(--edge-l) + 24 * var(--hub-u) - var(--gutter));--col-r:calc(var(--frame-w) - var(--edge-r) - 24 * var(--hub-u) + var(--gutter))}
 .fh-layer>.fh-daily{left:calc(var(--col-l) - 31 * var(--u));top:calc(var(--edge-top) + 40.4 * var(--hub-u) + var(--gap) + 10 * var(--hub-u))}
 .fh-layer>.fh-starter{left:calc(var(--col-l) - 31 * var(--u));top:calc(var(--edge-top) + 40.4 * var(--hub-u) + var(--gap) + 72.1 * var(--hub-u))}
 .fh-layer>.fh-feedback{left:calc(var(--col-r) - 31 * var(--u));top:calc(var(--edge-top) + 40.4 * var(--hub-u) + var(--gap) + 10 * var(--hub-u))}
@@ -79,7 +80,7 @@
   top:calc(var(--edge-top) + 24.4 * var(--hub-u) + 24 * var(--hub-u) + 10 * var(--hub-u));gap:calc(10 * var(--hub-u))}
 .screen.deco>.deco-side .deco-help{margin-top:0}
 
-/* Home: thứ tự nút theo nhánh main (xếp theo chức năng), icon bóng của bản UI; nút rìa vẫn bám MÉP KHUNG 393u (--col-l / --col-r không cộng --gutter).
+/* Home: thứ tự nút theo nhánh main (xếp theo chức năng), icon bóng của bản UI; nút rìa bám mép cửa sổ (--col-l / --col-r đã trừ / cộng --gutter).
    - Cột trái = quà / tiến độ: Daily -> Quests -> 7 Days. Cột phải = Starter Pack -> Cats / Dogs (hiện từ màn 30).
    - Không có nút Feedback trên Home (đã có trong popup Settings). Mỗi hàng cách nhau 62,1u (khoảng trống dọc đều 10u). */
 :root{--row-1:calc(var(--edge-top) + 40.4 * var(--hub-u) + var(--gap) + 10 * var(--hub-u));--row-2:calc(var(--row-1) + 62.1 * var(--hub-u));--row-3:calc(var(--row-1) + 124.2 * var(--hub-u))}
