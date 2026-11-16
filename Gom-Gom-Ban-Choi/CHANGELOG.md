@@ -4,6 +4,11 @@ Ghi mỗi thay đổi người chơi thấy được, mới nhất ở trên. Đ
 
 ## 2026-11-16
 
+### Deco / Home
+- Sửa Home hub trắng xoá sau khi nhận mèo (màn 7). Mỗi màn "You got…" tạo một WebGL context mà không trả lại; dồn tới giới hạn của trình duyệt
+  (Android thấp hơn máy tính) thì Chrome huỷ context cũ nhất = bản đồ Home. Giờ đóng màn thưởng là trả context (`forceContextLoss`).
+  Đo: trước 18 context sống sau 8 lần nhận thưởng (Chrome báo "Too many active WebGL contexts"), sau sửa đứng yên 2–3. Có test chặn tái phát.
+
 ### UI (onboarding)
 - Flow mới: màn 1 -> nhận mèo -> mèo cam nói -> màn 2 -> nhận quà -> **vào thẳng Deco** mở quà -> "Yay!" -> **vào thẳng màn 3**.
   Trước đó thắng màn 2 về Home (phải tự vào Deco) và mở quà xong đứng ở Deco. Hộp quà màn 3 (xu) cũng vào thẳng Deco.
