@@ -17,7 +17,8 @@ menus.showTab('home');
 if (!loadProgress().stars.some(Boolean)) play.startLevel(0);
 // ?level=N (chỉ dev; level editor mở từ nút "Chơi thử trong game"): vào thẳng màn N, kể cả màn chưa mở khoá.
 const devLevel = Number(new URLSearchParams(location.search).get('level'));
-if (DEV_MODE && devLevel >= 1) play.startLevel(devLevel - 1);
+// Popup Home vừa tự bật (quà 7 ngày...) phải đóng trước, không thì nó đè lên màn chơi và bảng kết quả chồng lên nó.
+if (DEV_MODE && devLevel >= 1) { document.querySelectorAll('dialog[open]').forEach(dialog => dialog.close()); play.startLevel(devLevel - 1); }
 // ?embed (Level Editor nhúng game trong khung): ẩn cột nút Dev (chỉ ẩn, không xoá: menu/dev-tools.js còn bám nút Studio trong đó).
 if (new URLSearchParams(location.search).has('embed')) document.getElementById('dev-panel')?.style.setProperty('display', 'none', 'important');
 // ?bot=weak|mid|good (chỉ dev): bot tự chơi ván hiện tại ngay trên giao diện game.
